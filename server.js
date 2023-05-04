@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const port = 1773;
+const port = 8080;
 
 const token =
 	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNTZlZjAyNDEtODNjOC00YzM5LTgzYzktOTBjZmUxNTRkNjNlIn0sImlhdCI6MTY4MzEyMjIxMywiZXhwIjoxODYzMTIyMjEzfQ.1B5lTPRDL5LYgqJENvR9CHXNhJdI8ga013PCt_hOXQc";
@@ -80,8 +80,22 @@ app.get("/gender", (req, res) => {
 			}
 		})
 		.then((axiosres) => {
-			console.log(axiosres.data);
-			res.json(axiosres.data);
+			var Male = 0;
+			var Female = 0;
+			var Transgender = 0;
+			// console.log(axiosres.data);
+			axiosres.data.gend.map((obj) => {
+				if (obj._id == "M") {
+					Male = obj.count;
+				}
+				if (obj._id == "F") {
+					Female = obj.count;
+				}
+				if (obj._id == "T") {
+					Transgender = obj.count;
+				}
+			});
+			res.json({ Male: Male, Female: Female, Transgender: Transgender });
 		});
 });
 
