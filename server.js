@@ -52,10 +52,17 @@ app.get("/mode", (req, res) => {
 		})
 		.then((axiosres) => {
 			console.log(axiosres.data);
-			res.json({
-				online: axiosres.data.cnt[0].count[0].total,
-				DD: axiosres.data.cnt[1].count[0].total
-			});
+			if (axiosres.data.cnt[1].count.length === 0) {
+				res.json({
+					online: axiosres.data.cnt[0].count[0].total,
+					DD: 0
+				});
+			} else {
+				res.json({
+					online: axiosres.data.cnt[0].count[0].total,
+					DD: axiosres.data.cnt[1].count[0].total
+				});
+			}
 		});
 });
 
